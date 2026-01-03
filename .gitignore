@@ -1,0 +1,17 @@
+# Making sure that Python, Django, and common environment files are ignored
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+db.sqlite3
+staticfiles/
+media/
+
+venv/
+.env/
+
+.DS_Store
+
+.vscode/
