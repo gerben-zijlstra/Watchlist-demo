@@ -34,7 +34,8 @@ LOGOUT_REDIRECT_URL = "login"
 
 # Application definition
 INSTALLED_APPS = [
-    "accounts",
+    "accounts",  # moved to the top
+    # so change_pass does not get overriden.
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
