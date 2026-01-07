@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Watchlist Demo{% endblock %}
+{% block content %}
+<h1>Welcome to your Movie Watchlist</h1>
+{% if user.is_authenticated %}
+<p>You are logged in! <a href="#">View your list</a></p>
+{% else %}
+<p>Please login to start tracking movies.</p>
+{% endif %}
+{% endblock %}
