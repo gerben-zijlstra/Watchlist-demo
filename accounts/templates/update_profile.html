@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Using forms from forms.py
+     enctype or else the browser will forget sending the media files to the server -->
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2>Edit Profile Settings</h2>
+        <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <h4>Account Info</h4>
+            <p>Email is optional*</p>
+            {{ u_form.as_p }}
+            <hr>
+            <h4>Profile Details</h4>
+            {{ p_form.as_p }}
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

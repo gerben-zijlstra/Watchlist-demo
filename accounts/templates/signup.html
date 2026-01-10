@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Sign Up - Watchlist{% endblock %}
 
 {% block content %}
-<h2>Create an Account</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-</form>
-<p>Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="custom-card p-5 shadow border-top border-primary border-4">
+            <h2 class="text-center fw-bold mb-2">Create an Account</h2>
+            <p class="text-center text-muted mb-4">Join the community and start tracking your movies.</p>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group-custom">
+                    {{ form.as_p }}
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg shadow">Sign Up</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4 border-top pt-3">
+                <p class="text-muted">Already have an account? <a href="{% url 'login' %}"
+                        class="text-primary text-decoration-none fw-bold">Log in here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

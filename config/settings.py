@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,11 +28,6 @@ SECRET_KEY = "django-insecure-#v4#-^!!coc!^hlh)=ex_b9b6rfa8w%)622k55c67yto&%_af(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -55,6 +52,19 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
+
+# added to make use of the CSS static files
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 TEMPLATES = [
     {
@@ -119,4 +129,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+MESSAGE_TAGS = {
+    messages.DEBUG: "secondary",
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "danger",  # Maps Django 'error' to Bootstrap 'danger'
+}

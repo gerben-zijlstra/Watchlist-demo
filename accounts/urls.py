@@ -12,11 +12,12 @@ urlpatterns = [
         auth_views.PasswordChangeView.as_view(
             # searches for specific path & sends back to profile if success.
             template_name="registration/password_change_form.html",
-            # success_url=reverse_lazy("profile"),
+            success_url=reverse_lazy("profile"),
         ),
         name="password_change",
     ),
     # custom signup
     path("signup/", views.signup, name="signup"),
     path("profile/", views.profile, name="profile"),
+    path("update-profile", views.profile_update, name="update_profile"),
 ]

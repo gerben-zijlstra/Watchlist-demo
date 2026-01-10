@@ -1,11 +1,29 @@
 {% extends "base.html" %}
 
 {% block title %}Home - Watchlist Demo{% endblock %}
+
 {% block content %}
-<h1>Welcome to your Movie Watchlist</h1>
-{% if user.is_authenticated %}
-<p>You are logged in! <a href="#">View your list</a></p>
-{% else %}
-<p>Please login to start tracking movies.</p>
-{% endif %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="p-5 mb-4 custom-card text-center mt-5">
+            <div class="container-fluid py-5">
+                <h1 class="display-4 fw-bold">Never forget movies again!</h1>
+                <p class="fs-4 text-muted">Never forget a movie again. Create your personal watchlist and rate your
+                    favorites.</p>
+
+                {% if user.is_authenticated %}
+                <div class="mt-4">
+                    <a href="#" class="btn btn-danger btn-lg px-5 shadow">View My Watchlist (W.I.P)</a>
+                </div>
+                {% else %}
+                <div class="mt-4">
+                    <a href="{% url 'signup' %}" class="btn btn-danger btn-lg px-5 shadow">Get Started for Free</a>
+                    <p class="mt-3 small">Already have an account? <a href="{% url 'login' %}"
+                            class="text-decoration-none">Login</a></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
