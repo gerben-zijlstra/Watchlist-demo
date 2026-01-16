@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="my-4">Results for "{{ query }}"</h2>
-
+{% if query %}
+<h2 class="my-4 text-white">Results for "{{ query }}"</h2>
+{% endif %}
 <div class="row row-cols-1 row-cols-md-4 g-4">
     <!-- Looping through all the movies in the results -->
     {% for movie in results %}
@@ -21,7 +22,7 @@
 
             <div class="card-body">
                 <h5 class="card-title">{{ movie.title }}</h5>
-                <p class="card-text text-muted small">{{ movie.release_date|slice:":4" }}</p>
+                <p class="card-text text-white small">{{ movie.release_date|slice:":4" }}</p>
 
                 <form action="{% url 'add_to_watchlist' movie.id %}" method="post">
                     {% csrf_token %}

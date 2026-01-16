@@ -5,22 +5,32 @@ from .models import Watchlist, WatchlistItem
 from django.contrib import messages
 
 
+def home(request):
+    service = TMDBService()
+    # fetching popular movies
+    popular_movies = service.get_popular_movies()
+    return render(request, "home.html", {"popular_movies": popular_movies})
+
+
 def movie_search(request):
     # gets the q, search from the form
-    query = request.GET.get("q")
-    results = []
+    # the strip removes accidentical spaces
+    query = request.GET.get("q", "").strip()
     service = TMDBService()
 
     if query:
         # calls a method in service
         results = service.search_movies(query)
         message = f"Results for '{query}'"
+        # incase the empty validator ever fails
     else:
         results = service.get_popular_movies()
         message = "Popular Movies"
 
     return render(
-        request, "search_results.html", {"results": results, "message": message}
+        request,
+        "search_results.html",
+        {"results": results, "query": query, "message": message},
     )
 
 

@@ -6,25 +6,50 @@ from .models import Movie, Tag
 class TMDBService:
     # shortcut, all requests start with this
     BASE_URL = "https://api.themoviedb.org/3"
-    IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
+    IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
     # running the moment you make an instance of service,
     # grabs key from .env
     def __init__(self):
         self.api_key = settings.TMDB_API_KEY
 
-    # stretch
-    def get_popular_movies(self, query):
-        pass
+    # popularity results with pagination, returning top 12
+    # using this as fallback when the search is empty
+    def get_popular_movies(self):
+        url = f"{self.BASE_URL}/trending/movie/day"
+        params = {"api_key": self.api_key, "language": "en"}
+        response = requests.get(url, params=params)
+        return response.json().get("results", [])[:12]
 
     def search_movies(self, query):
         "fetches results from the API"
         url = f"{self.BASE_URL}/search/movie"
+        # checking if the search is empty
+        if not query:
+            return []
+
         # passing allow params for TMDB to see that we are a user with key
-        params = {"api_key": self.api_key, "query": query}
+        params = {
+            "api_key": self.api_key,
+            "query": query,
+            "include-adult": False,
+            "language": "en",
+        }
         # response to tmdb, getting raw data and preventing crashes with empty list, if nothing is found "[]"
         response = requests.get(url, params=params)
-        return response.json().get("results", [])
+        raw_results = response.json().get("results", [])
+
+        # quality filtering, no adult & sort by popularity
+        filtered_results = [
+            movie
+            for movie in raw_results
+            if movie.get("poster_path") and movie.get("overview")
+        ]
+
+        # sorting by popularity descending
+        # filtered_results.sort(key=lambda x: x.get("popularity", 0), reverse=True)
+
+        return filtered_results
 
     def get_or_create_movie(self, tmdb_id):
         "fetches full movie details and saves it to movie table if there is not one already existing"
