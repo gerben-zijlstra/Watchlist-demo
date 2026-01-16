@@ -28,6 +28,8 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     # root html/home view
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
+    # watchlist
+    path("watchlist", include("watchlist.urls")),
 ]
 
 # to django able to act as a temporary file server,

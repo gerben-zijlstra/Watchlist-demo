@@ -12,6 +12,7 @@ class Movie(models.Model):
     external_api_id = models.CharField(max_length=50, unique=True)  # TMDB ID
     title = models.CharField(max_length=255)
     poster_url = models.URLField(max_length=500, null=True, blank=True)
+    overview = models.TextField(null=True, blank=True)
     release_date = models.DateField(null=True, blank=True)
     imdb_rating = models.DecimalField(
         max_digits=3, decimal_places=1, null=True, blank=True

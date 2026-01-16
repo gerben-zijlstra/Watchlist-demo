@@ -18,11 +18,17 @@
             <a class="navbar-brand fw-bold" href="{% url 'home' %}">Watchlist Project</a>
 
             <div class="navbar-nav ms-auto align-items-center">
+                <form class="d-flex" action="{% url 'movie_search' %}" method="get">
+                    <input type="search" class="form-control me-2" name="q" placeholder="Search movies..">
+                    <button type="submit" class="btn btn-outline-danger">Search</button>
+                </form>
+                <a href="{% url 'my_watchlist' %}" class="nav-link">Temporarily watchlist</a>
+
                 {% if user.is_authenticated %}
                 <span class="navbar-text me-3 d-none d-md-inline">
                     Hi, <strong>{{ user.username }}</strong>
                 </span>
-                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                <button class="nav-link" href="{% url 'profile' %}">Profile</button>
 
                 <form action="{% url 'logout' %}" method="post" class="ms-2">
                     {% csrf_token %}

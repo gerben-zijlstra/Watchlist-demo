@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-white border-bottom pb-2">My Watchlist</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for item in items %}
+        <div class="col">
+            <div class="card h-100 bg-dark text-white border-secondary shadow-sm">
+                {% if item.movie.poster_url %}
+                <img src="{{ item.movie.poster_url }}" class="card-img-top"> {% else %} <div
+                    class="bg-secondary text-center py-5"><i class="fas fa-film fa-3x"></i><br>No Poster
+                </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">{{ item.movie.title }}</h5>
+
+                    <div class="mb-2">
+                        <span class="badge bg-warning text-dark">⭐ {{ item.movie.imdb_rating|default:"N/A" }}</span>
+                        <span class="badge bg-outline-light border ms-1">
+                            {{ item.movie.release_date|date:"Y"|default:"Unknown Year" }}</span>
+                    </div>
+
+                    <div class="mb-3">
+                        {% for tag in item.movie.tags.all %}
+                        <span class="badge rounded-pill bg-secondary small" style="font-size: 0.7rem;">
+                            {{ tag.name }}</span>
+                        {% empty %}
+                        <span class="text-muted small">No genres</span>
+                        {% endfor %}
+                    </div>
+
+                    <p class="card-text text-light small opacity-75">
+                        {{ item.movie.overview|default:"No description available for this title."|truncatewords:25 }}
+                    </p>
+                </div>
+
+                <div
+                    class="card-footer bg-transparent border-secondary d-flex justify-content-between align-items-center">
+                    <span class="badge bg-info text-dark">{{ item.get_status_display }}</span>
+                    <small class="text-muted">Added {{ item.added_at|date:"M d, Y" }}</small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center mt-5">
+            <p class="text-light">Your watchlist is empty. Start searching to add movies!</p>
+            <a href="{% url 'movie_search' %}" class="btn btn-danger">Search Movies</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

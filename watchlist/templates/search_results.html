@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="my-4">Results for "{{ query }}"</h2>
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    <!-- Looping through all the movies in the results -->
+    {% for movie in results %}
+    <div class="col">
+        <div class="card h-100 bg-dark text-white border-secondary shadow">
+            <!-- 
+            checks and display poster img, if there was one found
+            else "No poster"
+            -->
+            {% if movie.poster_path %}
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top"
+                alt="{{ movie.title }}">
+            {% else %}
+            <div class="bg-secondary text-center py-5">No Poster</div>
+            {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text text-muted small">{{ movie.release_date|slice:":4" }}</p>
+
+                <form action="{% url 'add_to_watchlist' movie.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm w-100">+ Add to watchlist</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- incase of no results -->
+    {% empty %}
+    <p>No movies found for your search.</p>
+    {% endfor %}
+</div>
+{% endblock %}

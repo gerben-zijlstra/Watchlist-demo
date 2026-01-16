@@ -13,7 +13,8 @@
 
                 {% if user.is_authenticated %}
                 <div class="mt-4">
-                    <a href="#" class="btn btn-danger btn-lg px-5 shadow">View My Watchlist (W.I.P)</a>
+                    <a href="{% url 'my_watchlist' %}" class="btn btn-danger btn-lg px-5 shadow">View My Watchlist
+                        (W.I.P)</a>
                 </div>
                 {% else %}
                 <div class="mt-4">
