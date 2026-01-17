@@ -2,8 +2,81 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4 text-white border-bottom pb-2">My Watchlist</h2>
+    <div class="mb-4 border-bottom border-secondary pb-3">
+        <div class="d-flex justify-content-between align-items-start">
+            <div style="height: 200px;">
+                <small class="text-secondary ">
+                    <p>(Current active)</p>
+                </small>
+                <h2 class="text-white fw-bold">
+                    {{ active_list.name }}
+                </h2><br>
+                {% if active_list.description %}
+                <br>
+                <p class="text-white mb-1 ">{{ active_list.description }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <span class="badge bg-dark border border-secondary text-light">
+                    Created: {{ active_list.created_at|date:"M d, Y" }}
+                </span>
+                <span class="badge bg-dark border border-secondary text-light">
+                    {{ items.count }} Movies
+                </span>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle fw-bold fs-6 border-0" type="button"
+                    data-bs-toggle="dropdown">
+                    Switch watchlist
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark shadow">
+                    {% for list in user_lists %}
+                    <li>
+                        <a class="dropdown-item {% if list.id == active_list.id %}active{% endif %}"
+                            href="?list_id={{ list.id }}">
+                            {{ list.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <button class="dropdown-item text-danger" data-bs-toggle="modal"
+                            data-bs-target="#createListModal">
+                            + Create New List
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="createListModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">Create New Watchlist</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <input type="hidden" name="create_list" value="true">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="submit" class="btn btn-danger">Create List</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for item in items %}
         <div class="col">

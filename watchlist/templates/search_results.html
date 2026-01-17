@@ -24,10 +24,30 @@
                 <h5 class="card-title">{{ movie.title }}</h5>
                 <p class="card-text text-white small">{{ movie.release_date|slice:":4" }}</p>
 
-                <form action="{% url 'add_to_watchlist' movie.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm w-100">+ Add to watchlist</button>
-                </form>
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-danger btn-sm w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        + Add to List
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark shadow">
+                        {% for list in user_lists %}
+                        <li>
+                            <form action="{% url 'add_to_watchlist' movie.id list.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">
+                                    {{ list.name }}
+                                </button>
+                            </form>
+                        </li>
+                        {% empty %}
+                        <li><span class="dropdown-item disabled text-muted">No lists created</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-danger btn-sm w-100">Log in to Add</a>
+                {% endif %}
             </div>
         </div>
     </div>
